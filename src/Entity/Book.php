@@ -7,7 +7,8 @@ use App\Repository\BookRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\components\Serializer\Attributes\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 #[ApiResource(
@@ -26,14 +27,18 @@ class Book
 
     #[ORM\Column(length: 255)]
     #[Groups(['book:read', 'book:write'])]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     private ?string $Title = null;
 
     #[ORM\Column(nullable: true)]
     #[Groups(['book:read', 'book:write'])]
+    #[Assert\Range(min:1400, max:2100)]
     private ?int $Publish_year = null;
 
     #[ORM\Column(nullable: true)]
     #[Groups(['book:read', 'book:write'])]
+    #[Assert\Positive]
     private ?int $nbPages = null;
 
     #[ORM\Column(length: 50, nullable: true, unique:true)]

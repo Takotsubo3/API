@@ -9,15 +9,22 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: GenreRepository::class)]
-#[ApiResource]
+   #[ApiResource(
+    normalizationContext: ['groups' => ['genre:read']],
+denormalizationContext: ['groups' => ['genre:write']]
+)]
+
 class Genre
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+
+    #[Groups(['genre:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, unique:true)]
+    #[Groups(['genre:read', 'genre:write', 'book:read'])]
     private ?string $Name = null;
 
     /**

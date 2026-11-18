@@ -19,10 +19,11 @@ class Author
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-   
+ 
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['author:read', 'author:write', 'book:read'])]
     private ?string $Name = null;
 
     /**
